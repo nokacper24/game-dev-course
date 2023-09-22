@@ -72,6 +72,94 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "CameraControls",
+            "id": "22d4dace-c98f-44ed-b482-05fef28532a7",
+            "actions": [
+                {
+                    "name": "SwitchCameraOrtographic",
+                    "type": "Button",
+                    "id": "6c27ffd9-4716-47a5-9ee7-6e934caf2102",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "FovUp",
+                    "type": "Button",
+                    "id": "f7dda884-bbed-42fe-b42a-23e0e9e7e8f0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "FovDown",
+                    "type": "Button",
+                    "id": "1c7310c9-bc51-4fc6-b6eb-34c5b2b9d5a1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchCameraPerspective",
+                    "type": "Button",
+                    "id": "6d37c50d-82c1-4a82-a0d0-cbe271991a66",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "573d04fd-d473-4a02-9995-9d92e8250874",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchCameraOrtographic",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65c1bdab-3de4-43c2-a6bb-3120956ce2a8",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FovUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fb6d2525-baea-4a24-81a5-cdd209cde6a7",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchCameraPerspective",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9dcba8ac-b9e5-4697-911e-8a0c52ec7895",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FovDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

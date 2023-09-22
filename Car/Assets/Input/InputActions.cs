@@ -94,6 +94,94 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""CameraControls"",
+            ""id"": ""22d4dace-c98f-44ed-b482-05fef28532a7"",
+            ""actions"": [
+                {
+                    ""name"": ""SwitchCameraOrtographic"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c27ffd9-4716-47a5-9ee7-6e934caf2102"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FovUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""f7dda884-bbed-42fe-b42a-23e0e9e7e8f0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FovDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""1c7310c9-bc51-4fc6-b6eb-34c5b2b9d5a1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchCameraPerspective"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d37c50d-82c1-4a82-a0d0-cbe271991a66"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""573d04fd-d473-4a02-9995-9d92e8250874"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchCameraOrtographic"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65c1bdab-3de4-43c2-a6bb-3120956ce2a8"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FovUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fb6d2525-baea-4a24-81a5-cdd209cde6a7"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchCameraPerspective"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9dcba8ac-b9e5-4697-911e-8a0c52ec7895"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FovDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -101,6 +189,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        // CameraControls
+        m_CameraControls = asset.FindActionMap("CameraControls", throwIfNotFound: true);
+        m_CameraControls_SwitchCameraOrtographic = m_CameraControls.FindAction("SwitchCameraOrtographic", throwIfNotFound: true);
+        m_CameraControls_FovUp = m_CameraControls.FindAction("FovUp", throwIfNotFound: true);
+        m_CameraControls_FovDown = m_CameraControls.FindAction("FovDown", throwIfNotFound: true);
+        m_CameraControls_SwitchCameraPerspective = m_CameraControls.FindAction("SwitchCameraPerspective", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -204,8 +298,85 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // CameraControls
+    private readonly InputActionMap m_CameraControls;
+    private List<ICameraControlsActions> m_CameraControlsActionsCallbackInterfaces = new List<ICameraControlsActions>();
+    private readonly InputAction m_CameraControls_SwitchCameraOrtographic;
+    private readonly InputAction m_CameraControls_FovUp;
+    private readonly InputAction m_CameraControls_FovDown;
+    private readonly InputAction m_CameraControls_SwitchCameraPerspective;
+    public struct CameraControlsActions
+    {
+        private @InputActions m_Wrapper;
+        public CameraControlsActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @SwitchCameraOrtographic => m_Wrapper.m_CameraControls_SwitchCameraOrtographic;
+        public InputAction @FovUp => m_Wrapper.m_CameraControls_FovUp;
+        public InputAction @FovDown => m_Wrapper.m_CameraControls_FovDown;
+        public InputAction @SwitchCameraPerspective => m_Wrapper.m_CameraControls_SwitchCameraPerspective;
+        public InputActionMap Get() { return m_Wrapper.m_CameraControls; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CameraControlsActions set) { return set.Get(); }
+        public void AddCallbacks(ICameraControlsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CameraControlsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CameraControlsActionsCallbackInterfaces.Add(instance);
+            @SwitchCameraOrtographic.started += instance.OnSwitchCameraOrtographic;
+            @SwitchCameraOrtographic.performed += instance.OnSwitchCameraOrtographic;
+            @SwitchCameraOrtographic.canceled += instance.OnSwitchCameraOrtographic;
+            @FovUp.started += instance.OnFovUp;
+            @FovUp.performed += instance.OnFovUp;
+            @FovUp.canceled += instance.OnFovUp;
+            @FovDown.started += instance.OnFovDown;
+            @FovDown.performed += instance.OnFovDown;
+            @FovDown.canceled += instance.OnFovDown;
+            @SwitchCameraPerspective.started += instance.OnSwitchCameraPerspective;
+            @SwitchCameraPerspective.performed += instance.OnSwitchCameraPerspective;
+            @SwitchCameraPerspective.canceled += instance.OnSwitchCameraPerspective;
+        }
+
+        private void UnregisterCallbacks(ICameraControlsActions instance)
+        {
+            @SwitchCameraOrtographic.started -= instance.OnSwitchCameraOrtographic;
+            @SwitchCameraOrtographic.performed -= instance.OnSwitchCameraOrtographic;
+            @SwitchCameraOrtographic.canceled -= instance.OnSwitchCameraOrtographic;
+            @FovUp.started -= instance.OnFovUp;
+            @FovUp.performed -= instance.OnFovUp;
+            @FovUp.canceled -= instance.OnFovUp;
+            @FovDown.started -= instance.OnFovDown;
+            @FovDown.performed -= instance.OnFovDown;
+            @FovDown.canceled -= instance.OnFovDown;
+            @SwitchCameraPerspective.started -= instance.OnSwitchCameraPerspective;
+            @SwitchCameraPerspective.performed -= instance.OnSwitchCameraPerspective;
+            @SwitchCameraPerspective.canceled -= instance.OnSwitchCameraPerspective;
+        }
+
+        public void RemoveCallbacks(ICameraControlsActions instance)
+        {
+            if (m_Wrapper.m_CameraControlsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICameraControlsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CameraControlsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CameraControlsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CameraControlsActions @CameraControls => new CameraControlsActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
+    }
+    public interface ICameraControlsActions
+    {
+        void OnSwitchCameraOrtographic(InputAction.CallbackContext context);
+        void OnFovUp(InputAction.CallbackContext context);
+        void OnFovDown(InputAction.CallbackContext context);
+        void OnSwitchCameraPerspective(InputAction.CallbackContext context);
     }
 }
