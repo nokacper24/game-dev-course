@@ -1405,6 +1405,57 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344670601}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &348618608 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8843067121507749311, guid: 71bb6a2d713588049be5325eca1b53af,
+    type: 3}
+  m_PrefabInstance: {fileID: 591667023986884132}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &348618613
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348618608}
+  serializedVersion: 4
+  m_Mass: 100
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &348618614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 348618608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e59099570cbfc54cab12ec7a90511b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 20
+  forwardForceMultiplyer: 1000
+  turnMultiplyer: 2000
+  frontWheels:
+  - {fileID: 1584561366}
+  - {fileID: 1372033462}
 --- !u!1 &370691020
 GameObject:
   m_ObjectHideFlags: 0
@@ -4659,6 +4710,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 873075898778038652, guid: 71bb6a2d713588049be5325eca1b53af,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 873075898778038652, guid: 71bb6a2d713588049be5325eca1b53af,
+        type: 3}
       propertyPath: frontWheels.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -4727,10 +4783,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5007852603383607022, guid: 71bb6a2d713588049be5325eca1b53af, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8843067121507749311, guid: 71bb6a2d713588049be5325eca1b53af,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 348618614}
+    - targetCorrespondingSourceObject: {fileID: 8843067121507749311, guid: 71bb6a2d713588049be5325eca1b53af,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 348618613}
   m_SourcePrefab: {fileID: 100100000, guid: 71bb6a2d713588049be5325eca1b53af, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
