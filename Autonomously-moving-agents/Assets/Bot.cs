@@ -8,6 +8,8 @@ public class Bot : MonoBehaviour
 {
     NavMeshAgent agent;
     public GameObject target;
+
+    public float viewAngle = 60;
     Drive ds;
     // Start is called before the first frame update
     void Start()
@@ -124,18 +126,39 @@ public class Bot : MonoBehaviour
         this.Seek(info.point + chosenDir.normalized * 5);
     }
 
-    private bool CanSeeTarget() {
+    private bool CanSeeTarget()
+    {
         Vector3 rayToTarget = this.target.transform.position - this.transform.position;
+
+        float lookAngle = Vector3.Angle(this.transform.forward, rayToTarget);
+
         bool canSee = false;
-        if (Physics.Raycast(this.transform.position, rayToTarget, out RaycastHit raycastInfo)) {
-            if (raycastInfo.transform.gameObject.CompareTag("cop")) {
+        if (lookAngle < viewAngle && Physics.Raycast(this.transform.position, rayToTarget, out RaycastHit raycastInfo))
+        {
+            if (raycastInfo.transform.gameObject.CompareTag("cop"))
+            {
                 canSee = true;
             }
         }
         return canSee;
     }
 
-    
+    private bool CanTargetSeeMe()
+    {
+        bool canSee = false;
+
+
+        Vector3 rayFromTarget = this.transform.position - this.target.transform.position;
+        float lookAngle = Vector3.Angle(this.target.transform.forward, rayFromTarget);
+        if (lookAngle < viewAngle)
+        {
+            canSee = true;
+        }
+
+        return canSee;
+    }
+
+
 
     // Update is called once per frame
     void Update()
@@ -146,10 +169,24 @@ public class Bot : MonoBehaviour
         // this.Evade();
         // this.Wander();
         // this.Hide();
-        if(this.CanSeeTarget()){
-        this.CleverHide();
-        } else {
-            // this.Pursue();
+        if (!cooldown)
+        {
+            if (this.CanSeeTarget() && this.CanTargetSeeMe())
+            {
+                this.CleverHide();
+                this.cooldown = true;
+                Invoke(nameof(BehaviourCooldown), 5);
+            }
+            else
+            {
+                this.Pursue();
+            }
         }
     }
-}
+
+    bool cooldown = false;
+    void BehaviourCooldown()
+    {
+        this.cooldown = false;
+    }
+}   
