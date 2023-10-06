@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -159,19 +157,21 @@ public class Bot : MonoBehaviour
     }
 
 
+    private bool TargetInRange()
+    {
+        float distanceToTarget = Vector3.Distance(this.transform.position, this.target.transform.position);
+        return distanceToTarget < 10;
+    }
 
-    // Update is called once per frame
     void Update()
     {
-        // this.Seek(this.target.transform.position);
-        // this.Flee(this.target.transform.position);
-        // this.Pursue();
-        // this.Evade();
-        // this.Wander();
-        // this.Hide();
         if (!cooldown)
         {
-            if (this.CanSeeTarget() && this.CanTargetSeeMe())
+            if (!TargetInRange())
+            {
+                this.Wander();
+            }
+            else if (this.CanSeeTarget() && this.CanTargetSeeMe())
             {
                 this.CleverHide();
                 this.cooldown = true;
@@ -189,4 +189,12 @@ public class Bot : MonoBehaviour
     {
         this.cooldown = false;
     }
-}   
+
+    // void OnGUI()
+    // {
+    //     GUI.Label(new Rect(0, 0, 200, 200), "Cooldown: " + this.cooldown);
+    //     GUI.Label(new Rect(0, 20, 200, 200), "Target in range: " + this.TargetInRange());
+    //     GUI.Label(new Rect(0, 40, 200, 200), "Can See Target: " + this.CanSeeTarget());
+    //     GUI.Label(new Rect(0, 60, 200, 200), "Can Target See Me: " + this.CanTargetSeeMe());
+    // }
+}
