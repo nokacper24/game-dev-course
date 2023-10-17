@@ -35,31 +35,61 @@ public class ToggleWeather : MonoBehaviour
     {
         int shift = up ? 1 : -1;
 
-        if (currentWeatherIndex >= 0 && currentWeatherIndex < weatherParticleSystems.Length)
+        int newIndex = currentWeatherIndex + shift;
+
+        if (newIndex >= weatherParticleSystems.Length)
         {
-            weatherParticleSystems[currentWeatherIndex].Stop();
-            weatherParticleSystems[currentWeatherIndex].Clear();
+            newIndex = -1;
+        }
+        else if (newIndex < -1)
+        {
+            newIndex = weatherParticleSystems.Length - 1;
         }
 
-        currentWeatherIndex += shift;
+        ClearWeather(currentWeatherIndex);
+        currentWeatherIndex = newIndex;
 
         if (currentWeatherIndex >= 0 && currentWeatherIndex < weatherParticleSystems.Length)
         {
             weatherParticleSystems[currentWeatherIndex].Play();
         }
-        
 
-        if (currentWeatherIndex >= weatherParticleSystems.Length)
-        {
-            currentWeatherIndex = -1;
-        }
-        else if (currentWeatherIndex < -1)
-        {
-            currentWeatherIndex = weatherParticleSystems.Length - 1;
-        }
+
+
+
+
+        // if (currentWeatherIndex >= 0 && currentWeatherIndex < weatherParticleSystems.Length)
+        // {
+        //     weatherParticleSystems[currentWeatherIndex].Stop();
+        //     weatherParticleSystems[currentWeatherIndex].Clear();
+        // }
+
+        // currentWeatherIndex += shift;
+
+        // if (currentWeatherIndex >= 0 && currentWeatherIndex < weatherParticleSystems.Length)
+        // {
+        //     weatherParticleSystems[currentWeatherIndex].Play();
+        // }
+
+
+        // if (currentWeatherIndex >= weatherParticleSystems.Length)
+        // {
+        //     currentWeatherIndex = -1;
+        // }
+        // else if (currentWeatherIndex < -1)
+        // {
+        //     currentWeatherIndex = weatherParticleSystems.Length - 1;
+        // }
     }
 
-
+    private void ClearWeather(int index)
+    {
+        if (index >= 0 && index < weatherParticleSystems.Length)
+        {
+            weatherParticleSystems[index].Stop();
+            weatherParticleSystems[index].Clear();
+        }
+    }
     private void OnGUI()
     {
         GUI.Label(new Rect(10, 10, 300, 20), "Use up/down arrows to cycle weather");
