@@ -38,26 +38,51 @@ public class WheelDrive : MonoBehaviour
     public InputActionAsset primaryActions;
     InputActionMap gameplayActionMap;
     InputAction handBrakeInputAction;
+    InputAction steeringAngleInputAction;
+    InputAction accelerationInputAction;
+
     private void Awake()
     {
         gameplayActionMap = primaryActions.FindActionMap("Gameplay");
         handBrakeInputAction = gameplayActionMap.FindAction("HandBrake");
+        steeringAngleInputAction = gameplayActionMap.FindAction("Steering Angle");
+        accelerationInputAction = gameplayActionMap.FindAction("Acceleration");
 
         handBrakeInputAction.performed += GetHandBrakInput;
         handBrakeInputAction.canceled += GetHandBrakInput;
+
+        steeringAngleInputAction.performed += GetSteeringAngleInput;
+        steeringAngleInputAction.canceled += GetSteeringAngleInput;
+
+        accelerationInputAction.performed += GetAccelerationInput;
+        accelerationInputAction.canceled += GetAccelerationInput;
     }
 
     private  void GetHandBrakInput(InputAction.CallbackContext context) {
         handBrake = context.ReadValue<float>() * brakeTorque;
     }
 
+    private void GetSteeringAngleInput(InputAction.CallbackContext context)
+    {
+        angle = context.ReadValue<float>() * maxAngle;
+    }
+
+    private void GetAccelerationInput(InputAction.CallbackContext context)
+    {
+        torque = context.ReadValue<float>() * maxTorque;
+    }
+
     private void OnEnable()
     {
         handBrakeInputAction.Enable();
+        steeringAngleInputAction.Enable();
+        accelerationInputAction.Enable();
     }
     private void OnDisable()
     {
         handBrakeInputAction.Disable();
+        steeringAngleInputAction.Disable();
+        accelerationInputAction.Disable();
     }
 
 
@@ -86,8 +111,8 @@ public class WheelDrive : MonoBehaviour
     {
         m_Wheels[0].ConfigureVehicleSubsteps(criticalSpeed, stepsBelow, stepsAbove);
 
-        angle = maxAngle * Input.GetAxis("Horizontal");
-        torque = maxTorque * Input.GetAxis("Vertical");
+        // angle = maxAngle * Input.GetAxis("Horizontal");
+        // torque = maxTorque * Input.GetAxis("Vertical");
         // handBrake = Input.GetKey(KeyCode.X) ? brakeTorque : 0;
 
 
